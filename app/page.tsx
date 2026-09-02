@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CircleDot, Layers3 } from "lucide-react";
 
+import { SourceEditor } from "@/components/source/source-editor";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -133,19 +134,8 @@ export function WorkspaceContent({
                   <Badge>Current</Badge>
                 </CardAction>
               </CardHeader>
-              <CardContent className="flex flex-1 items-center justify-center py-12">
-                <div className="flex max-w-sm flex-col items-center text-center">
-                  <span className="flex size-11 items-center justify-center rounded-lg border bg-muted/60 text-muted-foreground shadow-xs">
-                    <Layers3 aria-hidden="true" className="size-5" strokeWidth={1.5} />
-                  </span>
-                  <h2 className="mt-4 text-base font-semibold tracking-tight">
-                    Workspace ready
-                  </h2>
-                  <p className="mt-1.5 text-sm leading-6 text-muted-foreground">
-                    A calm, focused surface for turning source material into a
-                    coherent visual system.
-                  </p>
-                </div>
+              <CardContent className="flex-1 py-5">
+                <SourceEditor />
               </CardContent>
             </Card>
 

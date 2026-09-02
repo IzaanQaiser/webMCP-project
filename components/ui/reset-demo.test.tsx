@@ -22,7 +22,11 @@ vi.mock("@/lib/session", async () => {
 
   return {
     ...actual,
-    useSession: () => ({ reset }),
+    useSession: () => ({
+      reset,
+      session: actual.createFreshSession(() => "reset-demo-test-session"),
+      update: vi.fn(),
+    }),
   };
 });
 
