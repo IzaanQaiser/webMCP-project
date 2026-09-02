@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { CircleDot, Layers3 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ResetDemo } from "@/components/ui/reset-demo";
 import {
   WorkspaceContainer,
   WorkspaceHeader,
@@ -25,7 +29,15 @@ const workflowSteps = [
   "Refine",
 ] as const;
 
-export default function Home() {
+type WorkflowStep = (typeof workflowSteps)[number];
+
+export function WorkspaceContent({
+  initialStep = "Source",
+}: {
+  initialStep?: WorkflowStep;
+}) {
+  const [currentStep, setCurrentStep] = useState<WorkflowStep>(initialStep);
+
   return (
     <WorkspaceShell>
       <WorkspaceHeader>
@@ -43,9 +55,15 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <Badge variant="outline" className="bg-background text-muted-foreground">
-            Static preview
-          </Badge>
+          <div className="flex items-center gap-2">
+            <Badge
+              variant="outline"
+              className="hidden bg-background text-muted-foreground sm:inline-flex"
+            >
+              Static preview
+            </Badge>
+            <ResetDemo onResetSettled={() => setCurrentStep("Source")} />
+          </div>
         </WorkspaceContainer>
       </WorkspaceHeader>
 
@@ -67,7 +85,7 @@ export default function Home() {
           <nav aria-label="Workflow progress" className="mt-8 border-y py-4">
             <ol className="grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-2">
               {workflowSteps.map((step, index) => {
-                const isCurrent = index === 0;
+                const isCurrent = step === currentStep;
 
                 return (
                   <li
@@ -171,4 +189,8 @@ export default function Home() {
       </WorkspaceContainer>
     </WorkspaceShell>
   );
+}
+
+export default function Home() {
+  return <WorkspaceContent />;
 }
