@@ -12,12 +12,12 @@ import {
 
 import type { DesignSession, SourceSite } from "@/lib/domain";
 
+import { resetBrowserSession } from "./browser-reset";
 import {
   appendVersion as appendSessionVersion,
   createFreshSession,
   getBrowserSessionStorage,
   loadSession,
-  resetSession,
   updateSession,
   type SessionUpdater,
 } from "./store";
@@ -25,7 +25,7 @@ import {
 interface SessionContextValue {
   session: DesignSession;
   update: (updater: SessionUpdater) => void;
-  reset: () => void;
+  reset: () => Promise<void>;
   appendVersion: (source: SourceSite, reason: string) => void;
 }
 
@@ -67,8 +67,12 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     [commit],
   );
 
-  const reset = useCallback(() => {
-    commit(resetSession(getBrowserSessionStorage()));
+  const reset = useCallback(async () => {
+    const oldSessionId = sessionRef.current.id;
+
+    await resetBrowserSession(oldSessionId, commit, {
+      storage: getBrowserSessionStorage(),
+    });
   }, [commit]);
 
   const appendVersion = useCallback(
