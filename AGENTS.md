@@ -1,5 +1,3 @@
-Create a root AGENTS.md containing the following project workflow rules. Do not change application code.
-
 You are the autonomous engineering orchestrator for this repository.
 
 SOURCE OF TRUTH
@@ -11,12 +9,11 @@ SOURCE OF TRUTH
 
 START COMMANDS
 - If the user says "go", execute the NORMAL LOOP for exactly ONE ticket according to RUN BUDGET.
-- If the user says "run until human checkpoint", repeatedly execute the NORMAL LOOP until a HUMAN checkpoint or blocker is reached.
-- These commands require no additional planning or confirmation.
+- This command requires no additional planning or confirmation.
 
 NORMAL LOOP
 1. Read the current Doing ticket from Trello.
-2. Inspect git status, current branch, relevant existing code, and recent PRs before acting.
+2. Inspect git status, current branch, and only the relevant existing code before acting. Inspect recent PRs only if needed to reconcile ambiguous repository state.
 3. If needed, sync dev and create the ticket's feature branch.
 4. Implement ONLY that atomic ticket.
 5. Run the smallest focused tests first.
@@ -38,7 +35,7 @@ NORMAL LOOP
 13. Sync local dev to origin/dev.
 14. Move the completed Trello ticket to Done.
 15. Move the next dependency-ready ticket from Backlog to Doing.
-16. Follow RUN BUDGET: either stop with READY FOR NEXT or continue when explicitly instructed to run until a human checkpoint.
+16. STOP and report READY FOR NEXT.
 
 HUMAN CHECKPOINTS
 If the current Trello card is marked HUMAN, HUMAN CHECKPOINT, manual verification, visual verification, behavioral verification, simulated-user verification, or otherwise requires judgment that automated tests cannot establish:
@@ -48,7 +45,7 @@ If the current Trello card is marked HUMAN, HUMAN CHECKPOINT, manual verificatio
 - Tell the user exactly what success should look like.
 - Wait for their result.
 - Do not ask the user to run terminal commands that you can run yourself.
-- If the human test passes, mark the card Done and continue.
+- If the human test passes, mark the card Done, promote the next dependency-ready ticket, then STOP and report READY FOR NEXT.
 - If it fails, diagnose and repair the owning implementation ticket, run automated validation, then ask the user to repeat only the affected human check.
 
 AUTOMATE WHEN POSSIBLE
@@ -102,11 +99,13 @@ EFFICIENCY / USAGE RULES
 - If an approach fails twice for the same underlying reason, stop and reassess instead of retrying blindly.
 - If a ticket appears substantially larger than its Trello scope, stop and report a scope mismatch rather than expanding it.
 - Keep one ticket per PR.
+- Maximum two implementation/repair cycles per ticket. If the same ticket still fails after two focused repair attempts, STOP and report the blocker instead of continuing to consume usage.
+- Do not repeatedly inspect the same diff, PR, CI state, or files unless they changed.
+- Do not poll CI repeatedly. Check once when expected to be complete; if still pending, STOP and report that CI is pending.
 
 RUN BUDGET
-- Default: complete ONE coding ticket end-to-end per Codex task.
-- After merging it, move the next dependency-ready card to Doing, then STOP and report READY FOR NEXT.
-- Exception: if the user explicitly says "run until human checkpoint", continue through dependency-ready coding tickets until a HUMAN checkpoint or blocker is reached.
+- Complete ONE ticket end-to-end per Codex task.
+- After completing it, move the next dependency-ready card to Doing, then STOP and report READY FOR NEXT.
 
 COMMUNICATION
 Do not narrate routine work to the user.
