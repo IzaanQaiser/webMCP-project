@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CircleDot, Layers3 } from "lucide-react";
 
+import { SourcePreview } from "@/components/preview/source-preview";
 import { SourceEditor } from "@/components/source/source-editor";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -119,25 +120,28 @@ export function WorkspaceContent({
           </nav>
 
           <div className="mt-8 grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_20rem]">
-            <Card className="min-h-[26rem] shadow-xs">
-              <CardHeader className="border-b">
-                <div>
-                  <p className="mb-1 text-xs font-medium text-muted-foreground">
-                    Step 01
-                  </p>
-                  <CardTitle className="text-lg">Source</CardTitle>
-                  <CardDescription className="mt-1">
-                    Establish the material that anchors the workflow.
-                  </CardDescription>
-                </div>
-                <CardAction>
-                  <Badge>Current</Badge>
-                </CardAction>
-              </CardHeader>
-              <CardContent className="flex-1 py-5">
-                <SourceEditor />
-              </CardContent>
-            </Card>
+            <div className="min-w-0 space-y-5">
+              <Card className="min-h-[26rem] shadow-xs">
+                <CardHeader className="border-b">
+                  <div>
+                    <p className="mb-1 text-xs font-medium text-muted-foreground">
+                      Step 01
+                    </p>
+                    <CardTitle className="text-lg">Source</CardTitle>
+                    <CardDescription className="mt-1">
+                      Establish the material that anchors the workflow.
+                    </CardDescription>
+                  </div>
+                  <CardAction>
+                    <Badge>Current</Badge>
+                  </CardAction>
+                </CardHeader>
+                <CardContent className="flex-1 py-5">
+                  <SourceEditor />
+                </CardContent>
+              </Card>
+              <SourcePreview />
+            </div>
 
             <Card size="sm" className="shadow-xs">
               <CardHeader className="border-b">
