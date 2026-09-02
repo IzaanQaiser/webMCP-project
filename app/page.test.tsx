@@ -1,10 +1,15 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { SessionProvider } from "@/lib/session";
 import Home from "./page";
 
 describe("Home", () => {
   it("renders the workspace shell and all workflow steps", () => {
-    render(<Home />);
+    render(
+      <SessionProvider>
+        <Home />
+      </SessionProvider>,
+    );
 
     expect(
       screen.getByRole("heading", { name: "Shape a clear visual direction." }),
