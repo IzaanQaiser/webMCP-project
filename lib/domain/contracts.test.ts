@@ -37,6 +37,7 @@ const reference: ReferenceAsset = {
 const validSession: DesignSession = {
   id: "session-1",
   sourceSite,
+  pendingReferenceUrls: [],
   references: [reference],
   preferences: [
     {
@@ -99,6 +100,7 @@ describe("domain contracts", () => {
     const freshSession: DesignSession = {
       id: "session-fresh",
       sourceSite: null,
+      pendingReferenceUrls: [],
       references: [],
       preferences: [],
       unresolvedIntents: [],
@@ -113,6 +115,15 @@ describe("domain contracts", () => {
 
   it("constructs a valid design session", () => {
     expect(DesignSessionSchema.parse(validSession)).toEqual(validSession);
+  });
+
+  it("defaults pending reference URLs for an otherwise-valid old session", () => {
+    const oldSession: Partial<DesignSession> = structuredClone(validSession);
+    delete oldSession.pendingReferenceUrls;
+
+    expect(DesignSessionSchema.parse(oldSession).pendingReferenceUrls).toEqual(
+      [],
+    );
   });
 
   it("survives a JSON serialize and parse round-trip", () => {
