@@ -48,6 +48,7 @@ describe("structured session store", () => {
     expect(session).toEqual({
       id: "session-controlled",
       sourceSite: null,
+      pendingReferenceUrls: [],
       references: [],
       preferences: [],
       unresolvedIntents: [],

@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { PendingReferenceUrlsSchema } from "./pending-reference-urls";
+
 export const MAX_REFERENCES_PER_SESSION = 3;
 
 const requiredString = z.string().trim().min(1);
@@ -151,6 +153,7 @@ export const DesignSessionSchema = z
   .object({
     id: requiredString,
     sourceSite: SourceSiteSchema.nullable(),
+    pendingReferenceUrls: PendingReferenceUrlsSchema.default([]),
     references: z
       .array(ReferenceAssetSchema)
       .max(MAX_REFERENCES_PER_SESSION),

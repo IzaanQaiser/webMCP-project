@@ -40,6 +40,7 @@ export function createFreshSession(
   return DesignSessionSchema.parse({
     id: generateId(),
     sourceSite: null,
+    pendingReferenceUrls: [],
     references: [],
     preferences: [],
     unresolvedIntents: [],
