@@ -34,7 +34,8 @@ NORMAL LOOP
     - validation results
     - blockers/known limitations
 11. Inspect PR diff and CI yourself.
-12. If clean and all configured CI checks pass, squash-merge the PR. If no CI is configured yet, use the successful required local validation gate.13. Sync local dev to origin/dev.
+12. If clean and all configured CI checks pass, squash-merge the PR. If no CI is configured yet, use the successful required local validation gate.
+13. Sync local dev to origin/dev.
 14. Move the completed Trello ticket to Done.
 15. Move the next dependency-ready ticket from Backlog to Doing.
 16. Follow RUN BUDGET: either stop with READY FOR NEXT or continue when explicitly instructed to run until a human checkpoint.
